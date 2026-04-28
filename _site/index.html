@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Lylia" />
+
+<meta name="date" content="2026-04-26" />
+
+<title>Fragmentation socio-spatiale à Saint-Denis</title>
+
+<script src="site_libs/header-attrs-2.31/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Mon projet</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Accueil</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Fragmentation socio-spatiale à
+Saint-Denis</h1>
+<h4 class="author">Lylia</h4>
+<h4 class="date">2026-04-26</h4>
+
+</div>
+
+
+<pre class="r"><code>library(sf)         # données spatiales vecteur</code></pre>
+<pre><code>## Linking to GEOS 3.14.1, GDAL 3.12.1, PROJ 9.7.1; sf_use_s2() is TRUE</code></pre>
+<pre class="r"><code>library(tidyverse)  # manipulation de données</code></pre>
+<pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+## ✔ dplyr     1.2.1     ✔ readr     2.2.0
+## ✔ forcats   1.0.1     ✔ stringr   1.6.0
+## ✔ ggplot2   4.0.3     ✔ tibble    3.3.1
+## ✔ lubridate 1.9.5     ✔ tidyr     1.3.2
+## ✔ purrr     1.2.2</code></pre>
+<pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()
+## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+<pre class="r"><code>library(readxl)     # lecture fichiers Excel
+library(tmap)       # cartographie
+library(terra)      # données raster</code></pre>
+<pre><code>## terra 1.9.11
+## 
+## Attachement du package : &#39;terra&#39;
+## 
+## L&#39;objet suivant est masqué depuis &#39;package:tidyr&#39;:
+## 
+##     extract</code></pre>
+<pre class="r"><code>library(dplyr)      # jointures et filtres</code></pre>
+<pre class="r"><code># Charger le shapefile des IRIS (France entière)
+# Adapte le chemin vers ton dossier de téléchargement
+shp_path &lt;- list.files(
+  &quot;data/CONTOURS-IRIS_2-1__SHP__FRA_2021-01-01&quot;,
+  pattern = &quot;\\.shp$&quot;,
+  full.names = TRUE,
+  recursive = TRUE
+)[1]
+
+iris_sf &lt;- st_read(shp_path)</code></pre>
+<pre><code>## Reading layer `CONTOURS-IRIS&#39; from data source 
+##   `C:\Users\fchri\OneDrive\Bureau\One Drive de Lylia Christory\OneDrive\Documents\mon-site-r\data\CONTOURS-IRIS_2-1__SHP__FRA_2021-01-01\CONTOURS-IRIS\1_DONNEES_LIVRAISON_2021-06-00217\CONTOURS-IRIS_2-1_SHP_LAMB93_FXX-2021\CONTOURS-IRIS.shp&#39; 
+##   using driver `ESRI Shapefile&#39;
+## Simple feature collection with 48589 features and 6 fields
+## Geometry type: MULTIPOLYGON
+## Dimension:     XY
+## Bounding box:  xmin: 99040 ymin: 6049662 xmax: 1242445 ymax: 7110479
+## Projected CRS: RGF93 Lambert 93</code></pre>
+<pre class="r"><code># Filtrer uniquement Saint-Denis (code commune = 93066)
+saint_denis_iris &lt;- iris_sf |&gt;
+  filter(INSEE_COM == &quot;93066&quot;)
+
+# Vérifier le résultat
+nrow(saint_denis_iris)  # nombre d&#39;IRIS</code></pre>
+<pre><code>## [1] 39</code></pre>
+<pre class="r"><code>st_crs(saint_denis_iris)  # système de coordonnées</code></pre>
+<pre><code>## Coordinate Reference System:
+##   User input: RGF93 Lambert 93 
+##   wkt:
+## PROJCRS[&quot;RGF93 Lambert 93&quot;,
+##     BASEGEOGCRS[&quot;RGF93 geographiques (dms)&quot;,
+##         DATUM[&quot;Reseau Geodesique Francais 1993 v1&quot;,
+##             ELLIPSOID[&quot;GRS 1980&quot;,6378137,298.257222101,
+##                 LENGTHUNIT[&quot;metre&quot;,1]]],
+##         PRIMEM[&quot;Greenwich&quot;,0,
+##             ANGLEUNIT[&quot;degree&quot;,0.0174532925199433]],
+##         ID[&quot;IGNF&quot;,&quot;RGF93G&quot;]],
+##     CONVERSION[&quot;LAMBERT-93&quot;,
+##         METHOD[&quot;Lambert Conic Conformal (2SP)&quot;,
+##             ID[&quot;EPSG&quot;,9802]],
+##         PARAMETER[&quot;Latitude of false origin&quot;,46.5,
+##             ANGLEUNIT[&quot;degree&quot;,0.0174532925199433],
+##             ID[&quot;EPSG&quot;,8821]],
+##         PARAMETER[&quot;Longitude of false origin&quot;,3,
+##             ANGLEUNIT[&quot;degree&quot;,0.0174532925199433],
+##             ID[&quot;EPSG&quot;,8822]],
+##         PARAMETER[&quot;Latitude of 1st standard parallel&quot;,44,
+##             ANGLEUNIT[&quot;degree&quot;,0.0174532925199433],
+##             ID[&quot;EPSG&quot;,8823]],
+##         PARAMETER[&quot;Latitude of 2nd standard parallel&quot;,49,
+##             ANGLEUNIT[&quot;degree&quot;,0.0174532925199433],
+##             ID[&quot;EPSG&quot;,8824]],
+##         PARAMETER[&quot;Easting at false origin&quot;,700000,
+##             LENGTHUNIT[&quot;metre&quot;,1],
+##             ID[&quot;EPSG&quot;,8826]],
+##         PARAMETER[&quot;Northing at false origin&quot;,6600000,
+##             LENGTHUNIT[&quot;metre&quot;,1],
+##             ID[&quot;EPSG&quot;,8827]]],
+##     CS[Cartesian,2],
+##         AXIS[&quot;easting (X)&quot;,east,
+##             ORDER[1],
+##             LENGTHUNIT[&quot;metre&quot;,1]],
+##         AXIS[&quot;northing (Y)&quot;,north,
+##             ORDER[2],
+##             LENGTHUNIT[&quot;metre&quot;,1]],
+##     USAGE[
+##         SCOPE[&quot;NATIONALE A CARACTERE LEGAL&quot;],
+##         AREA[&quot;FRANCE METROPOLITAINE (CORSE COMPRISE)&quot;],
+##         BBOX[41,-5.5,52,10]],
+##     ID[&quot;IGNF&quot;,&quot;LAMB93&quot;]]</code></pre>
+<pre class="r"><code># Visualisation rapide
+plot(st_geometry(saint_denis_iris))</code></pre>
+<p><img src="index_files/figure-html/unnamed-chunk-2-1.png" alt="" width="672" /></p>
+<pre class="r"><code># Charger la base Filosofi 2021 au niveau IRIS
+# Le fichier Excel téléchargé sur l&#39;INSEE contient plusieurs onglets
+revenus &lt;- read.csv(
+  &quot;data/BASE_TD_FILO_IRIS_2021_DISP.csv&quot;,
+  sep = &quot;;&quot;,
+  encoding = &quot;UTF-8&quot;
+)
+
+# Filtrer les revenus pour Saint-Denis uniquement (code commune 93066)
+revenus_sd &lt;- revenus |&gt;
+  filter(substr(IRIS, 1, 5) == &quot;93066&quot;)
+
+# Jointure attributaire
+saint_denis_joint &lt;- saint_denis_iris |&gt;
+  left_join(
+    revenus_sd,
+    by = c(&quot;CODE_IRIS&quot; = &quot;IRIS&quot;)
+  )
+
+# Vérifier la jointure
+nrow(saint_denis_joint)                  # nb d&#39;IRIS</code></pre>
+<pre><code>## [1] 39</code></pre>
+<pre class="r"><code>summary(saint_denis_joint$DISP_MED21)   # revenus médians</code></pre>
+<pre><code>##    Length  N.unique   N.blank Min.nchar Max.nchar 
+##        39        36         0         2         5</code></pre>
+<pre class="r"><code>sum(is.na(saint_denis_joint$DISP_MED21)) # valeurs manquantes</code></pre>
+<pre><code>## [1] 0</code></pre>
+<pre class="r"><code>knitr::opts_chunk$set(echo = TRUE)
+
+
+# Carte choroplèthe du revenu médian par IRIS
+tmap_mode(&quot;plot&quot;)</code></pre>
+<pre><code>## ℹ tmap modes &quot;plot&quot; - &quot;view&quot;
+## ℹ toggle with `tmap::ttm()`</code></pre>
+<pre class="r"><code>tm_shape(saint_denis_joint) +
+  tm_polygons(
+    col = &quot;DISP_MED21&quot;,
+    palette = &quot;YlOrRd&quot;,
+    title = &quot;Revenu médian disponible (€/UC)&quot;,
+    style = &quot;quantile&quot;,
+    n = 5
+  ) +
+  tm_layout(
+    title = &quot;Inégalités de revenus à Saint-Denis (2021)&quot;,
+    legend.outside = TRUE
+  )</code></pre>
+<pre><code>## 
+## ── tmap v3 code detected ───────────────────────────────────────────────────────
+## [v3-&gt;v4] `tm_polygons()`: instead of `style = &quot;quantile&quot;`, use fill.scale =
+## `tm_scale_intervals()`.
+## ℹ Migrate the argument(s) &#39;style&#39;, &#39;n&#39;, &#39;palette&#39; (rename to &#39;values&#39;) to
+##   &#39;tm_scale_intervals(&lt;HERE&gt;)&#39;[v3-&gt;v4] `tm_polygons()`: use &#39;fill&#39; for the fill color of polygons/symbols
+## (instead of &#39;col&#39;), and &#39;col&#39; for the outlines (instead of &#39;border.col&#39;).[v3-&gt;v4] `tm_polygons()`: migrate the argument(s) related to the legend of the
+## visual variable `fill` namely &#39;title&#39; to &#39;fill.legend = tm_legend(&lt;HERE&gt;)&#39;[v3-&gt;v4] `tm_layout()`: use `tm_title()` instead of `tm_layout(title = )`[cols4all] color palettes: use palettes from the R package cols4all. Run
+## `cols4all::c4a_gui()` to explore them. The old palette name &quot;YlOrRd&quot; is named
+## &quot;brewer.yl_or_rd&quot;Multiple palettes called &quot;yl_or_rd&quot; found: &quot;brewer.yl_or_rd&quot;, &quot;matplotlib.yl_or_rd&quot;. The first one, &quot;brewer.yl_or_rd&quot;, is returned.</code></pre>
+<pre><code>## Warning: Number of levels of the variable assigned to the aesthetic &quot;fill&quot; of
+## the layer &quot;polygons&quot; is 36, which is larger than n.max (which is 30), so levels
+## are combined.</code></pre>
+<pre><code>## [plot mode] fit legend/component: Some legend items or map compoments do not
+## fit well, and are therefore rescaled.
+## ℹ Set the tmap option `component.autoscale = FALSE` to disable rescaling.</code></pre>
+<p><img src="index_files/figure-html/unnamed-chunk-2-2.png" alt="" width="672" /></p>
+<pre class="r"><code># --- Géotraitement vecteur 1 : buffer ---
+# Sélectionner un IRIS central comme point de référence
+iris_centre &lt;- saint_denis_joint |&gt;
+  filter(grepl(&quot;centre|Basilique&quot;, NOM_IRIS, ignore.case = TRUE)) |&gt;
+  slice(1)
+
+# Créer un buffer de 1000m autour de cet IRIS
+buffer_1km &lt;- st_buffer(iris_centre, dist = 1000)
+
+# --- Géotraitement vecteur 2 : intersection ---
+# Sélectionner les IRIS qui intersectent le buffer
+iris_in_buffer &lt;- st_intersection(saint_denis_joint, buffer_1km)</code></pre>
+<pre><code>## Warning: attribute variables are assumed to be spatially constant throughout
+## all geometries</code></pre>
+<pre class="r"><code># Visualiser le résultat
+tm_shape(saint_denis_joint) +
+  tm_polygons(col = &quot;DISP_MED21&quot;, palette = &quot;YlOrRd&quot;,
+              title = &quot;Revenu médian (€/UC)&quot;, style = &quot;quantile&quot;) +
+  tm_shape(buffer_1km) +
+  tm_borders(col = &quot;blue&quot;, lwd = 2) +
+  tm_layout(title = &quot;Buffer 1km autour du centre&quot;
+)</code></pre>
+<pre><code>## 
+## ── tmap v3 code detected ───────────────────────────────────────────────────────
+## [v3-&gt;v4] `tm_polygons()`: instead of `style = &quot;quantile&quot;`, use fill.scale =
+## `tm_scale_intervals()`.
+## ℹ Migrate the argument(s) &#39;style&#39;, &#39;palette&#39; (rename to &#39;values&#39;) to
+##   &#39;tm_scale_intervals(&lt;HERE&gt;)&#39;[v3-&gt;v4] `tm_polygons()`: migrate the argument(s) related to the legend of the
+## visual variable `fill` namely &#39;title&#39; to &#39;fill.legend = tm_legend(&lt;HERE&gt;)&#39;[v3-&gt;v4] `tm_layout()`: use `tm_title()` instead of `tm_layout(title = )`[cols4all] color palettes: use palettes from the R package cols4all. Run
+## `cols4all::c4a_gui()` to explore them. The old palette name &quot;YlOrRd&quot; is named
+## &quot;brewer.yl_or_rd&quot;Multiple palettes called &quot;yl_or_rd&quot; found: &quot;brewer.yl_or_rd&quot;, &quot;matplotlib.yl_or_rd&quot;. The first one, &quot;brewer.yl_or_rd&quot;, is returned.</code></pre>
+<pre><code>## Warning: Number of levels of the variable assigned to the aesthetic &quot;fill&quot; of
+## the layer &quot;polygons&quot; is 36, which is larger than n.max (which is 30), so levels
+## are combined.</code></pre>
+<pre><code>## [plot mode] fit legend/component: Some legend items or map compoments do not
+## fit well, and are therefore rescaled.
+## ℹ Set the tmap option `component.autoscale = FALSE` to disable rescaling.</code></pre>
+<p><img src="index_files/figure-html/unnamed-chunk-2-3.png" alt="" width="672" /></p>
+<pre class="r"><code># Carte de l&#39;indice de Gini (inégalités internes à chaque IRIS)
+tm_shape(saint_denis_joint) +
+  tm_polygons(
+    col = &quot;DISP_GI21&quot;,
+    palette = &quot;PuRd&quot;,
+    title = &quot;Indice de Gini&quot;,
+    style = &quot;quantile&quot;,
+    n = 5
+  ) +
+  tm_layout(
+    title = &quot;Inégalités internes par IRIS — Saint-Denis (2021)&quot;,
+    legend.outside = TRUE
+  )</code></pre>
+<pre><code>## 
+## ── tmap v3 code detected ───────────────────────────────────────────────────────
+## [v3-&gt;v4] `tm_polygons()`: instead of `style = &quot;quantile&quot;`, use fill.scale =
+## `tm_scale_intervals()`.
+## ℹ Migrate the argument(s) &#39;style&#39;, &#39;n&#39;, &#39;palette&#39; (rename to &#39;values&#39;) to
+##   &#39;tm_scale_intervals(&lt;HERE&gt;)&#39;[v3-&gt;v4] `tm_polygons()`: migrate the argument(s) related to the legend of the
+## visual variable `fill` namely &#39;title&#39; to &#39;fill.legend = tm_legend(&lt;HERE&gt;)&#39;[v3-&gt;v4] `tm_layout()`: use `tm_title()` instead of `tm_layout(title = )`[cols4all] color palettes: use palettes from the R package cols4all. Run
+## `cols4all::c4a_gui()` to explore them. The old palette name &quot;PuRd&quot; is named
+## &quot;brewer.pu_rd&quot;Multiple palettes called &quot;pu_rd&quot; found: &quot;brewer.pu_rd&quot;, &quot;matplotlib.pu_rd&quot;. The first one, &quot;brewer.pu_rd&quot;, is returned.</code></pre>
+<pre><code>## Warning: Number of levels of the variable assigned to the aesthetic &quot;fill&quot; of
+## the layer &quot;polygons&quot; is 33, which is larger than n.max (which is 30), so levels
+## are combined.</code></pre>
+<pre><code>## [plot mode] fit legend/component: Some legend items or map compoments do not
+## fit well, and are therefore rescaled.
+## ℹ Set the tmap option `component.autoscale = FALSE` to disable rescaling.</code></pre>
+<p><img src="index_files/figure-html/unnamed-chunk-2-4.png" alt="" width="672" /></p>
+<pre class="r"><code># Carte du taux de pauvreté
+tm_shape(saint_denis_joint) +
+  tm_polygons(
+    col = &quot;DISP_TP6021&quot;,
+    palette = &quot;Reds&quot;,
+    title = &quot;Taux de pauvreté (%)&quot;,
+    style = &quot;quantile&quot;,
+    n = 5
+  ) +
+  tm_layout(
+    title = &quot;Taux de pauvreté par IRIS — Saint-Denis (2021)&quot;,
+    legend.outside = TRUE
+)</code></pre>
+<pre><code>## 
+## ── tmap v3 code detected ───────────────────────────────────────────────────────
+## [v3-&gt;v4] `tm_polygons()`: instead of `style = &quot;quantile&quot;`, use fill.scale =
+## `tm_scale_intervals()`.
+## ℹ Migrate the argument(s) &#39;style&#39;, &#39;n&#39;, &#39;palette&#39; (rename to &#39;values&#39;) to
+##   &#39;tm_scale_intervals(&lt;HERE&gt;)&#39;[v3-&gt;v4] `tm_polygons()`: migrate the argument(s) related to the legend of the
+## visual variable `fill` namely &#39;title&#39; to &#39;fill.legend = tm_legend(&lt;HERE&gt;)&#39;[v3-&gt;v4] `tm_layout()`: use `tm_title()` instead of `tm_layout(title = )`[cols4all] color palettes: use palettes from the R package cols4all. Run
+## `cols4all::c4a_gui()` to explore them. The old palette name &quot;Reds&quot; is named
+## &quot;brewer.reds&quot;Multiple palettes called &quot;reds&quot; found: &quot;brewer.reds&quot;, &quot;matplotlib.reds&quot;. The first one, &quot;brewer.reds&quot;, is returned.
+## [plot mode] fit legend/component: Some legend items or map compoments do not
+## fit well, and are therefore rescaled.
+## ℹ Set the tmap option `component.autoscale = FALSE` to disable rescaling.</code></pre>
+<p><img src="index_files/figure-html/unnamed-chunk-2-5.png" alt="" width="672" /></p>
+<pre class="r"><code># Sauvegarder le fichier joint (vecteur enrichi)
+st_write(
+  saint_denis_joint,
+  &quot;data/saint_denis_revenus.gpkg&quot;,
+  append = FALSE
+)</code></pre>
+<pre><code>## Deleting layer `saint_denis_revenus&#39; using driver `GPKG&#39;
+## Writing layer `saint_denis_revenus&#39; to data source 
+##   `data/saint_denis_revenus.gpkg&#39; using driver `GPKG&#39;
+## Writing 39 features with 35 fields and geometry type Multi Polygon.</code></pre>
+<div id="introduction-voici-mon-projet-de-géotraitement."
+class="section level1">
+<h1>Introduction : Voici mon projet de géotraitement.</h1>
+</div>
+<div id="section" class="section level1">
+<h1></h1>
+</div>
+<div id="section-1" class="section level1">
+<h1></h1>
+</div>
+<div id="section-2" class="section level1">
+<h1></h1>
+</div>
+<div id="section-3" class="section level1">
+<h1></h1>
+</div>
+<div id="données-description-des-données-utilisées."
+class="section level1">
+<h1>Données : Description des données utilisées.</h1>
+</div>
+<div id="section-4" class="section level1">
+<h1></h1>
+</div>
+<div id="section-5" class="section level1">
+<h1></h1>
+</div>
+<div id="section-6" class="section level1">
+<h1></h1>
+</div>
+<div id="section-7" class="section level1">
+<h1></h1>
+</div>
+<div
+id="problématique-dans-quelle-mesure-les-inégalités-de-revenus-à-saint-denis-se-traduisent-elles-par-des-formes-de-fragmentation-socio-spatiale"
+class="section level1">
+<h1>Problématique : Dans quelle mesure les inégalités de revenus à
+Saint-Denis se traduisent-elles par des formes de fragmentation
+socio-spatiale ?</h1>
+</div>
+<div id="section-8" class="section level1">
+<h1></h1>
+</div>
+<div id="section-9" class="section level1">
+<h1></h1>
+</div>
+<div id="section-10" class="section level1">
+<h1></h1>
+</div>
+<div id="section-11" class="section level1">
+<h1></h1>
+</div>
+<div id="conclusion-résumé-des-résultats." class="section level1">
+<h1>Conclusion : Résumé des résultats.</h1>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

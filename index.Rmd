@@ -1,0 +1,157 @@
+---
+title: "Fragmentation socio-spatiale à Saint-Denis"
+author: "Lylia"
+date: "2026-04-26"
+output: html_document
+---
+
+```{r}
+
+library(sf)         # données spatiales vecteur
+library(tidyverse)  # manipulation de données
+library(readxl)     # lecture fichiers Excel
+library(tmap)       # cartographie
+library(terra)      # données raster
+library(dplyr)      # jointures et filtres
+
+```
+```{r}
+# Charger le shapefile des IRIS (France entière)
+# Adapte le chemin vers ton dossier de téléchargement
+shp_path <- list.files(
+  "data/CONTOURS-IRIS_2-1__SHP__FRA_2021-01-01",
+  pattern = "\\.shp$",
+  full.names = TRUE,
+  recursive = TRUE
+)[1]
+
+iris_sf <- st_read(shp_path)
+
+# Filtrer uniquement Saint-Denis (code commune = 93066)
+saint_denis_iris <- iris_sf |>
+  filter(INSEE_COM == "93066")
+
+# Vérifier le résultat
+nrow(saint_denis_iris)  # nombre d'IRIS
+st_crs(saint_denis_iris)  # système de coordonnées
+
+# Visualisation rapide
+plot(st_geometry(saint_denis_iris))
+
+# Charger la base Filosofi 2021 au niveau IRIS
+# Le fichier Excel téléchargé sur l'INSEE contient plusieurs onglets
+revenus <- read.csv(
+  "data/BASE_TD_FILO_IRIS_2021_DISP.csv",
+  sep = ";",
+  encoding = "UTF-8"
+)
+
+# Filtrer les revenus pour Saint-Denis uniquement (code commune 93066)
+revenus_sd <- revenus |>
+  filter(substr(IRIS, 1, 5) == "93066")
+
+# Jointure attributaire
+saint_denis_joint <- saint_denis_iris |>
+  left_join(
+    revenus_sd,
+    by = c("CODE_IRIS" = "IRIS")
+  )
+
+# Vérifier la jointure
+nrow(saint_denis_joint)                  # nb d'IRIS
+summary(saint_denis_joint$DISP_MED21)   # revenus médians
+sum(is.na(saint_denis_joint$DISP_MED21)) # valeurs manquantes
+knitr::opts_chunk$set(echo = TRUE)
+
+
+# Carte choroplèthe du revenu médian par IRIS
+tmap_mode("plot")
+
+tm_shape(saint_denis_joint) +
+  tm_polygons(
+    col = "DISP_MED21",
+    palette = "YlOrRd",
+    title = "Revenu médian disponible (€/UC)",
+    style = "quantile",
+    n = 5
+  ) +
+  tm_layout(
+    title = "Inégalités de revenus à Saint-Denis (2021)",
+    legend.outside = TRUE
+  )
+
+# --- Géotraitement vecteur 1 : buffer ---
+# Sélectionner un IRIS central comme point de référence
+iris_centre <- saint_denis_joint |>
+  filter(grepl("centre|Basilique", NOM_IRIS, ignore.case = TRUE)) |>
+  slice(1)
+
+# Créer un buffer de 1000m autour de cet IRIS
+buffer_1km <- st_buffer(iris_centre, dist = 1000)
+
+# --- Géotraitement vecteur 2 : intersection ---
+# Sélectionner les IRIS qui intersectent le buffer
+iris_in_buffer <- st_intersection(saint_denis_joint, buffer_1km)
+
+# Visualiser le résultat
+tm_shape(saint_denis_joint) +
+  tm_polygons(col = "DISP_MED21", palette = "YlOrRd",
+              title = "Revenu médian (€/UC)", style = "quantile") +
+  tm_shape(buffer_1km) +
+  tm_borders(col = "blue", lwd = 2) +
+  tm_layout(title = "Buffer 1km autour du centre"
+)
+
+# Carte de l'indice de Gini (inégalités internes à chaque IRIS)
+tm_shape(saint_denis_joint) +
+  tm_polygons(
+    col = "DISP_GI21",
+    palette = "PuRd",
+    title = "Indice de Gini",
+    style = "quantile",
+    n = 5
+  ) +
+  tm_layout(
+    title = "Inégalités internes par IRIS — Saint-Denis (2021)",
+    legend.outside = TRUE
+  )
+
+# Carte du taux de pauvreté
+tm_shape(saint_denis_joint) +
+  tm_polygons(
+    col = "DISP_TP6021",
+    palette = "Reds",
+    title = "Taux de pauvreté (%)",
+    style = "quantile",
+    n = 5
+  ) +
+  tm_layout(
+    title = "Taux de pauvreté par IRIS — Saint-Denis (2021)",
+    legend.outside = TRUE
+)
+
+# Sauvegarder le fichier joint (vecteur enrichi)
+st_write(
+  saint_denis_joint,
+  "data/saint_denis_revenus.gpkg",
+  append = FALSE
+)
+```
+
+
+# Introduction : Voici mon projet de géotraitement.
+#
+#
+#
+#
+# Données : Description des données utilisées. 
+#
+#
+#
+#
+# Problématique : Dans quelle mesure les inégalités de revenus à Saint-Denis se traduisent-elles par des formes de fragmentation socio-spatiale ?
+#
+#
+#
+#
+# Conclusion : Résumé des résultats.
