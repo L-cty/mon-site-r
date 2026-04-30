@@ -1,7 +1,0 @@
-name: "mon-site"
-navbar:
-  title: "Mon projet"
-  left:
-    - text: "Accueil"
-      href: index.html
-output_dir: "_site"
