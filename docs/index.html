@@ -267,244 +267,8 @@ Saint-Denis</h1>
 </div>
 
 
-<pre class="r"><code>library(sf)         # données spatiales vecteur
-library(tidyverse)  # manipulation de données
-library(readxl)     # lecture fichiers Excel
-library(tmap)       # cartographie
-library(terra)      # données raster
-library(dplyr)      # jointures et filtres</code></pre>
-<pre class="r"><code># Charger le shapefile des IRIS (France entière)
-# Adapte le chemin vers ton dossier de téléchargement
-shp_path &lt;- list.files(
-  &quot;data/CONTOURS-IRIS_2-1__SHP__FRA_2021-01-01&quot;,
-  pattern = &quot;\\.shp$&quot;,
-  full.names = TRUE,
-  recursive = TRUE
-)[1]
-
-iris_sf &lt;- st_read(shp_path)</code></pre>
-<pre><code>## Reading layer `CONTOURS-IRIS&#39; from data source 
-##   `C:\Users\fchri\OneDrive\Bureau\One Drive de Lylia Christory\OneDrive\Documents\mon-site-r\data\CONTOURS-IRIS_2-1__SHP__FRA_2021-01-01\CONTOURS-IRIS\1_DONNEES_LIVRAISON_2021-06-00217\CONTOURS-IRIS_2-1_SHP_LAMB93_FXX-2021\CONTOURS-IRIS.shp&#39; 
-##   using driver `ESRI Shapefile&#39;
-## Simple feature collection with 48589 features and 6 fields
-## Geometry type: MULTIPOLYGON
-## Dimension:     XY
-## Bounding box:  xmin: 99040 ymin: 6049662 xmax: 1242445 ymax: 7110479
-## Projected CRS: RGF93 Lambert 93</code></pre>
-<pre class="r"><code># Filtrer uniquement Saint-Denis (code commune = 93066)
-saint_denis_iris &lt;- iris_sf |&gt;
-  filter(INSEE_COM == &quot;93066&quot;)
-
-# Vérifier le résultat
-nrow(saint_denis_iris)  # nombre d&#39;IRIS</code></pre>
-<pre><code>## [1] 39</code></pre>
-<pre class="r"><code>st_crs(saint_denis_iris)  # système de coordonnées</code></pre>
-<pre><code>## Coordinate Reference System:
-##   User input: RGF93 Lambert 93 
-##   wkt:
-## PROJCRS[&quot;RGF93 Lambert 93&quot;,
-##     BASEGEOGCRS[&quot;RGF93 geographiques (dms)&quot;,
-##         DATUM[&quot;Reseau Geodesique Francais 1993 v1&quot;,
-##             ELLIPSOID[&quot;GRS 1980&quot;,6378137,298.257222101,
-##                 LENGTHUNIT[&quot;metre&quot;,1]]],
-##         PRIMEM[&quot;Greenwich&quot;,0,
-##             ANGLEUNIT[&quot;degree&quot;,0.0174532925199433]],
-##         ID[&quot;IGNF&quot;,&quot;RGF93G&quot;]],
-##     CONVERSION[&quot;LAMBERT-93&quot;,
-##         METHOD[&quot;Lambert Conic Conformal (2SP)&quot;,
-##             ID[&quot;EPSG&quot;,9802]],
-##         PARAMETER[&quot;Latitude of false origin&quot;,46.5,
-##             ANGLEUNIT[&quot;degree&quot;,0.0174532925199433],
-##             ID[&quot;EPSG&quot;,8821]],
-##         PARAMETER[&quot;Longitude of false origin&quot;,3,
-##             ANGLEUNIT[&quot;degree&quot;,0.0174532925199433],
-##             ID[&quot;EPSG&quot;,8822]],
-##         PARAMETER[&quot;Latitude of 1st standard parallel&quot;,44,
-##             ANGLEUNIT[&quot;degree&quot;,0.0174532925199433],
-##             ID[&quot;EPSG&quot;,8823]],
-##         PARAMETER[&quot;Latitude of 2nd standard parallel&quot;,49,
-##             ANGLEUNIT[&quot;degree&quot;,0.0174532925199433],
-##             ID[&quot;EPSG&quot;,8824]],
-##         PARAMETER[&quot;Easting at false origin&quot;,700000,
-##             LENGTHUNIT[&quot;metre&quot;,1],
-##             ID[&quot;EPSG&quot;,8826]],
-##         PARAMETER[&quot;Northing at false origin&quot;,6600000,
-##             LENGTHUNIT[&quot;metre&quot;,1],
-##             ID[&quot;EPSG&quot;,8827]]],
-##     CS[Cartesian,2],
-##         AXIS[&quot;easting (X)&quot;,east,
-##             ORDER[1],
-##             LENGTHUNIT[&quot;metre&quot;,1]],
-##         AXIS[&quot;northing (Y)&quot;,north,
-##             ORDER[2],
-##             LENGTHUNIT[&quot;metre&quot;,1]],
-##     USAGE[
-##         SCOPE[&quot;NATIONALE A CARACTERE LEGAL&quot;],
-##         AREA[&quot;FRANCE METROPOLITAINE (CORSE COMPRISE)&quot;],
-##         BBOX[41,-5.5,52,10]],
-##     ID[&quot;IGNF&quot;,&quot;LAMB93&quot;]]</code></pre>
-<pre class="r"><code># Visualisation rapide
-plot(st_geometry(saint_denis_iris))</code></pre>
-<p><img src="index_files/figure-html/unnamed-chunk-2-1.png" alt="" width="672" /></p>
-<pre class="r"><code># Charger la base Filosofi 2021 au niveau IRIS
-# Le fichier Excel téléchargé sur l&#39;INSEE contient plusieurs onglets
-revenus &lt;- read.csv(
-  &quot;data/BASE_TD_FILO_IRIS_2021_DISP.csv&quot;,
-  sep = &quot;;&quot;,
-  encoding = &quot;UTF-8&quot;
-)
-
-# Filtrer les revenus pour Saint-Denis uniquement (code commune 93066)
-revenus_sd &lt;- revenus |&gt;
-  filter(substr(IRIS, 1, 5) == &quot;93066&quot;)
-
-# Jointure attributaire
-saint_denis_joint &lt;- saint_denis_iris |&gt;
-  left_join(
-    revenus_sd,
-    by = c(&quot;CODE_IRIS&quot; = &quot;IRIS&quot;)
-  )
-
-# Vérifier la jointure
-nrow(saint_denis_joint)                  # nb d&#39;IRIS</code></pre>
-<pre><code>## [1] 39</code></pre>
-<pre class="r"><code>summary(saint_denis_joint$DISP_MED21)   # revenus médians</code></pre>
-<pre><code>##    Length  N.unique   N.blank Min.nchar Max.nchar 
-##        39        36         0         2         5</code></pre>
-<pre class="r"><code>sum(is.na(saint_denis_joint$DISP_MED21)) # valeurs manquantes</code></pre>
-<pre><code>## [1] 0</code></pre>
-<pre class="r"><code>knitr::opts_chunk$set(echo = TRUE)
-
-
-# Carte choroplèthe du revenu médian par IRIS
-tmap_mode(&quot;plot&quot;)</code></pre>
-<pre><code>## ℹ tmap modes &quot;plot&quot; - &quot;view&quot;</code></pre>
-<pre class="r"><code>tm_shape(saint_denis_joint) +
-  tm_polygons(
-    col = &quot;DISP_MED21&quot;,
-    palette = &quot;YlOrRd&quot;,
-    title = &quot;Revenu médian disponible (€/UC)&quot;,
-    style = &quot;quantile&quot;,
-    n = 5
-  ) +
-  tm_layout(
-    title = &quot;Inégalités de revenus à Saint-Denis (2021)&quot;,
-    legend.outside = TRUE
-  )</code></pre>
-<pre><code>## 
-## ── tmap v3 code detected ──────────────────────────────────────────────────────────────────────
-## [v3-&gt;v4] `tm_polygons()`: instead of `style = &quot;quantile&quot;`, use fill.scale =
-## `tm_scale_intervals()`.
-## ℹ Migrate the argument(s) &#39;style&#39;, &#39;n&#39;, &#39;palette&#39; (rename to &#39;values&#39;) to
-##   &#39;tm_scale_intervals(&lt;HERE&gt;)&#39;[v3-&gt;v4] `tm_polygons()`: migrate the argument(s) related to the legend of the visual variable
-## `fill` namely &#39;title&#39; to &#39;fill.legend = tm_legend(&lt;HERE&gt;)&#39;[v3-&gt;v4] `tm_layout()`: use `tm_title()` instead of `tm_layout(title = )`[cols4all] color palettes: use palettes from the R package cols4all. Run `cols4all::c4a_gui()`
-## to explore them. The old palette name &quot;YlOrRd&quot; is named &quot;brewer.yl_or_rd&quot;Multiple palettes called &quot;yl_or_rd&quot; found: &quot;brewer.yl_or_rd&quot;, &quot;matplotlib.yl_or_rd&quot;. The first one, &quot;brewer.yl_or_rd&quot;, is returned.</code></pre>
-<pre><code>## Warning: Number of levels of the variable assigned to the aesthetic &quot;fill&quot; of the layer
-## &quot;polygons&quot; is 36, which is larger than n.max (which is 30), so levels are combined.</code></pre>
-<pre><code>## [plot mode] fit legend/component: Some legend items or map compoments do not fit well, and are
-## therefore rescaled.
-## ℹ Set the tmap option `component.autoscale = FALSE` to disable rescaling.</code></pre>
-<p><img src="index_files/figure-html/unnamed-chunk-2-2.png" alt="" width="672" /></p>
-<pre class="r"><code># --- Géotraitement vecteur 1 : buffer ---
-# Sélectionner un IRIS central comme point de référence
-iris_centre &lt;- saint_denis_joint |&gt;
-  filter(grepl(&quot;centre|Basilique&quot;, NOM_IRIS, ignore.case = TRUE)) |&gt;
-  slice(1)
-
-# Créer un buffer de 1000m autour de cet IRIS
-buffer_1km &lt;- st_buffer(iris_centre, dist = 1000)
-
-# --- Géotraitement vecteur 2 : intersection ---
-# Sélectionner les IRIS qui intersectent le buffer
-iris_in_buffer &lt;- st_intersection(saint_denis_joint, buffer_1km)</code></pre>
-<pre><code>## Warning: attribute variables are assumed to be spatially constant throughout all geometries</code></pre>
-<pre class="r"><code># Visualiser le résultat
-tm_shape(saint_denis_joint) +
-  tm_polygons(col = &quot;DISP_MED21&quot;, palette = &quot;YlOrRd&quot;,
-              title = &quot;Revenu médian (€/UC)&quot;, style = &quot;quantile&quot;) +
-  tm_shape(buffer_1km) +
-  tm_borders(col = &quot;blue&quot;, lwd = 2) +
-  tm_layout(title = &quot;Buffer 1km autour du centre&quot;
-)</code></pre>
-<pre><code>## 
-## ── tmap v3 code detected ──────────────────────────────────────────────────────────────────────
-## [v3-&gt;v4] `tm_polygons()`: instead of `style = &quot;quantile&quot;`, use fill.scale =
-## `tm_scale_intervals()`.
-## ℹ Migrate the argument(s) &#39;style&#39;, &#39;palette&#39; (rename to &#39;values&#39;) to
-##   &#39;tm_scale_intervals(&lt;HERE&gt;)&#39;[v3-&gt;v4] `tm_polygons()`: migrate the argument(s) related to the legend of the visual variable
-## `fill` namely &#39;title&#39; to &#39;fill.legend = tm_legend(&lt;HERE&gt;)&#39;[v3-&gt;v4] `tm_layout()`: use `tm_title()` instead of `tm_layout(title = )`[cols4all] color palettes: use palettes from the R package cols4all. Run `cols4all::c4a_gui()`
-## to explore them. The old palette name &quot;YlOrRd&quot; is named &quot;brewer.yl_or_rd&quot;Multiple palettes called &quot;yl_or_rd&quot; found: &quot;brewer.yl_or_rd&quot;, &quot;matplotlib.yl_or_rd&quot;. The first one, &quot;brewer.yl_or_rd&quot;, is returned.</code></pre>
-<pre><code>## Warning: Number of levels of the variable assigned to the aesthetic &quot;fill&quot; of the layer
-## &quot;polygons&quot; is 36, which is larger than n.max (which is 30), so levels are combined.</code></pre>
-<pre><code>## [plot mode] fit legend/component: Some legend items or map compoments do not fit well, and are
-## therefore rescaled.
-## ℹ Set the tmap option `component.autoscale = FALSE` to disable rescaling.</code></pre>
-<p><img src="index_files/figure-html/unnamed-chunk-2-3.png" alt="" width="672" /></p>
-<pre class="r"><code># Carte de l&#39;indice de Gini (inégalités internes à chaque IRIS)
-tm_shape(saint_denis_joint) +
-  tm_polygons(
-    col = &quot;DISP_GI21&quot;,
-    palette = &quot;PuRd&quot;,
-    title = &quot;Indice de Gini&quot;,
-    style = &quot;quantile&quot;,
-    n = 5
-  ) +
-  tm_layout(
-    title = &quot;Inégalités internes par IRIS — Saint-Denis (2021)&quot;,
-    legend.outside = TRUE
-  )</code></pre>
-<pre><code>## 
-## ── tmap v3 code detected ──────────────────────────────────────────────────────────────────────
-## [v3-&gt;v4] `tm_polygons()`: instead of `style = &quot;quantile&quot;`, use fill.scale =
-## `tm_scale_intervals()`.
-## ℹ Migrate the argument(s) &#39;style&#39;, &#39;n&#39;, &#39;palette&#39; (rename to &#39;values&#39;) to
-##   &#39;tm_scale_intervals(&lt;HERE&gt;)&#39;[v3-&gt;v4] `tm_polygons()`: migrate the argument(s) related to the legend of the visual variable
-## `fill` namely &#39;title&#39; to &#39;fill.legend = tm_legend(&lt;HERE&gt;)&#39;[v3-&gt;v4] `tm_layout()`: use `tm_title()` instead of `tm_layout(title = )`[cols4all] color palettes: use palettes from the R package cols4all. Run `cols4all::c4a_gui()`
-## to explore them. The old palette name &quot;PuRd&quot; is named &quot;brewer.pu_rd&quot;Multiple palettes called &quot;pu_rd&quot; found: &quot;brewer.pu_rd&quot;, &quot;matplotlib.pu_rd&quot;. The first one, &quot;brewer.pu_rd&quot;, is returned.</code></pre>
-<pre><code>## Warning: Number of levels of the variable assigned to the aesthetic &quot;fill&quot; of the layer
-## &quot;polygons&quot; is 33, which is larger than n.max (which is 30), so levels are combined.</code></pre>
-<pre><code>## [plot mode] fit legend/component: Some legend items or map compoments do not fit well, and are
-## therefore rescaled.
-## ℹ Set the tmap option `component.autoscale = FALSE` to disable rescaling.</code></pre>
-<p><img src="index_files/figure-html/unnamed-chunk-2-4.png" alt="" width="672" /></p>
-<pre class="r"><code># Carte du taux de pauvreté
-tm_shape(saint_denis_joint) +
-  tm_polygons(
-    col = &quot;DISP_TP6021&quot;,
-    palette = &quot;Reds&quot;,
-    title = &quot;Taux de pauvreté (%)&quot;,
-    style = &quot;quantile&quot;,
-    n = 5
-  ) +
-  tm_layout(
-    title = &quot;Taux de pauvreté par IRIS — Saint-Denis (2021)&quot;,
-    legend.outside = TRUE
-)</code></pre>
-<pre><code>## 
-## ── tmap v3 code detected ──────────────────────────────────────────────────────────────────────
-## [v3-&gt;v4] `tm_polygons()`: instead of `style = &quot;quantile&quot;`, use fill.scale =
-## `tm_scale_intervals()`.
-## ℹ Migrate the argument(s) &#39;style&#39;, &#39;n&#39;, &#39;palette&#39; (rename to &#39;values&#39;) to
-##   &#39;tm_scale_intervals(&lt;HERE&gt;)&#39;[v3-&gt;v4] `tm_polygons()`: migrate the argument(s) related to the legend of the visual variable
-## `fill` namely &#39;title&#39; to &#39;fill.legend = tm_legend(&lt;HERE&gt;)&#39;[v3-&gt;v4] `tm_layout()`: use `tm_title()` instead of `tm_layout(title = )`[cols4all] color palettes: use palettes from the R package cols4all. Run `cols4all::c4a_gui()`
-## to explore them. The old palette name &quot;Reds&quot; is named &quot;brewer.reds&quot;Multiple palettes called &quot;reds&quot; found: &quot;brewer.reds&quot;, &quot;matplotlib.reds&quot;. The first one, &quot;brewer.reds&quot;, is returned.
-## [plot mode] fit legend/component: Some legend items or map compoments do not fit well, and are
-## therefore rescaled.
-## ℹ Set the tmap option `component.autoscale = FALSE` to disable rescaling.</code></pre>
-<p><img src="index_files/figure-html/unnamed-chunk-2-5.png" alt="" width="672" /></p>
-<pre class="r"><code># Sauvegarder le fichier joint (vecteur enrichi)
-st_write(
-  saint_denis_joint,
-  &quot;data/saint_denis_revenus.gpkg&quot;,
-  append = FALSE
-)</code></pre>
-<pre><code>## Deleting layer `saint_denis_revenus&#39; using driver `GPKG&#39;
-## Writing layer `saint_denis_revenus&#39; to data source 
-##   `data/saint_denis_revenus.gpkg&#39; using driver `GPKG&#39;
-## Writing 39 features with 35 fields and geometry type Multi Polygon.</code></pre>
-<div id="introduction-voici-mon-projet-de-géotraitement."
-class="section level1">
-<h1>Introduction : Voici mon projet de géotraitement.</h1>
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
 </div>
 <div id="section" class="section level1">
 <h1></h1>
@@ -534,15 +298,13 @@ class="section level1">
 <div id="section-7" class="section level1">
 <h1></h1>
 </div>
-<div
-id="problématique-dans-quelle-mesure-les-inégalités-de-revenus-à-saint-denis-se-traduisent-elles-par-des-formes-de-fragmentation-socio-spatiale"
-class="section level1">
-<h1>Problématique : Dans quelle mesure les inégalités de revenus à
-Saint-Denis se traduisent-elles par des formes de fragmentation
-socio-spatiale ?</h1>
-</div>
 <div id="section-8" class="section level1">
 <h1></h1>
+<p><img src="index_files/figure-html/unnamed-chunk-1-1.png" alt="" width="672" /><img src="index_files/figure-html/unnamed-chunk-1-2.png" alt="" width="672" /><img src="index_files/figure-html/unnamed-chunk-1-3.png" alt="" width="672" /><img src="index_files/figure-html/unnamed-chunk-1-4.png" alt="" width="672" /><img src="index_files/figure-html/unnamed-chunk-1-5.png" alt="" width="672" /></p>
+</div>
+<div id="introduction-voici-mon-projet-de-géotraitement."
+class="section level1">
+<h1>Introduction : Voici mon projet de géotraitement.</h1>
 </div>
 <div id="section-9" class="section level1">
 <h1></h1>
@@ -551,6 +313,44 @@ socio-spatiale ?</h1>
 <h1></h1>
 </div>
 <div id="section-11" class="section level1">
+<h1></h1>
+</div>
+<div id="section-12" class="section level1">
+<h1></h1>
+</div>
+<div id="données-description-des-données-utilisées.-1"
+class="section level1">
+<h1>Données : Description des données utilisées.</h1>
+</div>
+<div id="section-13" class="section level1">
+<h1></h1>
+</div>
+<div id="section-14" class="section level1">
+<h1></h1>
+</div>
+<div id="section-15" class="section level1">
+<h1></h1>
+</div>
+<div id="section-16" class="section level1">
+<h1></h1>
+</div>
+<div
+id="problématique-dans-quelle-mesure-les-inégalités-de-revenus-à-saint-denis-se-traduisent-elles-par-des-formes-de-fragmentation-socio-spatiale"
+class="section level1">
+<h1>Problématique : Dans quelle mesure les inégalités de revenus à
+Saint-Denis se traduisent-elles par des formes de fragmentation
+socio-spatiale ?</h1>
+</div>
+<div id="section-17" class="section level1">
+<h1></h1>
+</div>
+<div id="section-18" class="section level1">
+<h1></h1>
+</div>
+<div id="section-19" class="section level1">
+<h1></h1>
+</div>
+<div id="section-20" class="section level1">
 <h1></h1>
 </div>
 <div id="conclusion-résumé-des-résultats." class="section level1">
